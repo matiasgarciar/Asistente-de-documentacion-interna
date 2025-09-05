@@ -1,0 +1,47 @@
+---
+inventariar_corpus_documental:
+  description: 'Realizar un inventario completo del directorio {directorio_documentos},
+    catalogando todos los documentos disponibles por tipo de archivo (PDF, DOCX, CSV,
+    etc.), identificando su estructura, contenido general y metadatos relevantes.
+    Crear un mapa comprensivo del corpus documental que incluya: nombre de archivo,
+    ruta completa, tipo de documento, tamaño aproximado, fecha de última modificación
+    y categoría temática inferida del nombre/contenido.'
+  expected_output: Un inventario estructurado en formato markdown que liste todos
+    los documentos encontrados organizados por tipo de archivo, con metadatos completos
+    y categorización temática. Incluir estadísticas del corpus (total de archivos
+    por tipo, distribución temática) y recomendaciones sobre la estrategia de indexación
+    más eficiente.
+  agent: document_indexing_specialist
+execute_multi_format_semantic_search:
+  description: Ejecutar búsquedas semánticas precisas sobre la pregunta de negocio
+    "{pregunta_negocio}" a través de todos los documentos identificados en el inventario.
+    Para cada formato de archivo (PDF, DOCX, CSV), aplicar la herramienta de búsqueda
+    correspondiente y recuperar los pasajes más relevantes. Optimizar la estrategia
+    de búsqueda considerando variaciones lingüísticas, sinónimos y contexto empresarial.
+    Documentar el proceso de búsqueda, incluyendo queries utilizadas, número de resultados
+    por fuente y tiempo de procesamiento.
+  expected_output: 'Un reporte detallado de resultados de búsqueda organizado por
+    documento fuente, que incluya: pasajes recuperados con contexto, puntuación de
+    relevancia semántica, ubicación exacta en el documento (página, sección), metadata
+    del documento fuente, y métricas de calidad de la recuperación (precision/recall
+    estimados). Formatear en markdown con secciones claramente diferenciadas por fuente.'
+  agent: multi_format_document_retrieval_expert
+  context:
+  - inventariar_corpus_documental
+generate_rag_based_business_response:
+  description: Sintetizar toda la información recuperada de las búsquedas semánticas
+    para generar una respuesta comprensiva y fundamentada a la pregunta de negocio
+    "{pregunta_negocio}". Analizar los pasajes recuperados, evaluar su relevancia
+    y confiabilidad, y construir una respuesta coherente que integre hallazgos de
+    múltiples fuentes. Incluir citas precisas con referencias exactas a documentos,
+    páginas y secciones. Proporcionar puntuaciones de confianza para cada afirmación
+    realizada y identificar posibles gaps o inconsistencias en la información disponible.
+  expected_output: 'Una respuesta ejecutiva estructurada en formato markdown que incluya:
+    1) Respuesta directa a la pregunta de negocio, 2) Análisis detallado con evidencia
+    de múltiples fuentes, 3) Sección de citas y referencias con puntuaciones de relevancia
+    (0-100), 4) Evaluación de confiabilidad y limitaciones de los hallazgos, 5) Recomendaciones
+    basadas en la evidencia encontrada, 6) Sugerencias para investigación adicional
+    si es necesario.'
+  agent: rag_response_generation_analyst
+  context:
+  - execute_multi_format_semantic_search
